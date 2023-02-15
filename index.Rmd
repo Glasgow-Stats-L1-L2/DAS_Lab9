@@ -1,0 +1,121 @@
+--- 
+title: "Data Analysis: Generalised Linear Models"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+biblio-style: apalike
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(readr)
+library(sjPlot)
+library(moderndive)
+library(ISLR)
+library(skimr)
+library(plotly)
+library(tidyr)
+library(datasets)
+library(knitr)
+library(janitor)
+library(infer)
+library(stats)
+library(jtools)
+library(webexercises)
+
+knitr::opts_chunk$set(comment = NA, warning = FALSE, message = FALSE)
+```
+
+# Introduction {-}
+
+In Week 4 we looked at modelling data using linear regression models where we had:
+
+  * a **continous response variable** $y$ and
+  * one or more **explanatory variables** $x_1, x_2,\ldots, x_p$, which were **numerical** and/or **categorical** variables.
+  
+Recall that for data $(y_i, x_i), ~ i = 1,\ldots, n$, where $y$ is a continuous response variable, we can write a simple linear regression model as follows:
+
+$$y_i = \alpha + \beta x_i + \epsilon_i, ~~~~ \epsilon_i \sim N(0, \sigma^2),$$
+where
+
+  * $y_i$ is the $i^{th}$ observation of the continuous response variable;
+  * $\alpha$ is the **intercept** of the regression line;
+  * $\beta$ is the **slope** of the regression line;
+  * $x_i$ is the $i^{th}$ observation of the explanatory variable; and
+  * $\epsilon_i$ is the $i^{th}$ random component.
+
+Thus, the full probability model for $y_i$ given $x_i$ ($y_i | x_i$) can be written as
+
+$$y_i | x_i \sim N(\alpha + \beta x_i, \sigma^2),$$
+
+where the mean $\alpha + \beta x_i$ is given by the deterministic part of the model and the variance $\sigma^2$ by the random part. Hence we make the assumption that the outcomes $y_i$ are normally distributed with mean $\alpha + \beta x_i$ and variance $\sigma^2$. However, what if our response variable $y$ is not a continuous random variable?
+
+
+## Generalised linear models {-}
+
+The main objective this week is to introduce **Generalised Linear Models (GLMs)**, which extend the linear model framework to response variables that don't follow the normal distribution. GLMs can be used to model non-normal continuous response variables, but they are most frequently used to model binary, categorical or count data. Here we shall focus on binary/categorical response variables. The generalised linear model can be written as:
+
+\begin{align}
+y_i &\sim f(g(\boldsymbol{\mu}_i)) \nonumber \\
+\boldsymbol{\mu}_i &= \mathbf{x}_i^\top \boldsymbol{\beta}, \nonumber
+\end{align}
+
+where the response $y_i$ is predicted though the linear combination $\boldsymbol{\mu}_i$ of explanatory variables by the link function $g(\cdot)$, assuming some distribution $f(\cdot)$ for $y_i$, and $\mathbf{x}_i^\top$ is the $i^{th}$ row of the design matrix $\boldsymbol{X}$. For example, the simple linear regression model above for a continuous response variable has the normal distribution distribution as $f(\cdot)$, with corresponding link function equal to the Identity function, that is, $g(\boldsymbol{\mu}_i) = \boldsymbol{\mu}_i$.
+
+What if our response variable $y$ is binary (e.g. yes/no, success/failure, alive/dead)? That is, the independent responses $y_i$ can either be:
+
+  * **binary**, taking the value 1 (say success, with probability $p_i$) or 0 (failure, with probability $1-p_i$) or
+
+  * **binomial**, where $y_i$ is the number of successes in a given number of trials $n_i$, with the probability of success being $p_i$ and the probability of failure being $1-p_i$.
+
+In both cases the distribution of $y_i$ is assumed to be binomial, but in the first case it is Bin$(1,p_i)$ and in the second case it is Bin$(n_i,p_i)$. Hence, a binary response variable $y_i$ has a binomial distribution with corresponding link function $g(\cdot)$ equal to the **logit link** function, that is
+
+$$g(p_i) = \log \left(\frac{p_i}{1 - p_i} \right),$$
+which is also referred to as the **log-odds** (since $p_i ~ / ~ 1-p_i$ is an odds ratio). Why is such a transformation required when looking at a binary response variable? Well here we are interested in modelling the probability of success $p_i$, and as we know probabilities must be between 0 and 1 $\left(p_i \in [0, 1]\right)$. So if we want to model the probability of success using a linear model we need to ensure that the probabilities obtained are between 0 and 1. However, if we just use the identity link function, such that
+
+$$p_i = \mathbf{x}_i^\top \boldsymbol{\beta},$$
+we would need to ensure that in some way $\mathbf{x}_i^\top \boldsymbol{\beta} \in [0, 1]$, that is, the linear combination of the explanatory variables and their corresponding regression coefficients was between 0 and 1. Hence some restrictions of some sort would need to be put in place to ensure this was the case. However, if we use the logit link function, such that
+
+$$\log \left(\frac{p_i}{1 - p_i} \right) = \mathbf{x}_i^\top \boldsymbol{\beta},$$
+
+no restrictions need to be in place on our estimates of the parameter vector $\boldsymbol{\beta}$, since the inverse of the logit link function will always gives us valid probabilities since
+
+$$p_i = \frac{\exp\left(\mathbf{x}_i^\top \boldsymbol{\beta}\right)}{1 + \exp\left(\mathbf{x}_i^\top \boldsymbol{\beta}\right)} ~~~ \in [0, 1].$$
+This linear regression model with a binary response variable is referred to as **logistic regression**. As such, when it comes to looking at binary response variables we shall be looking at odds ratios and probabilities of success/failure. The table below is a reminder of the distribution and link function used for the normal model we have previously looked at as well as the logistic regression model we shall be examining for the rest of this week.
+
+**Model** | **Random component** | **Systematic component** | **Link function**
+:--------:|:---------------------:|:-------------------------:|:----------------:
+Normal | $\small y_i\overset{\text{indep}}\sim \mbox{N}(\mu_i,\sigma^2),$ | $\small \boldsymbol{x}_i^\top\boldsymbol{\beta} =\beta_0 + \beta_1x_i + \beta_2x_i + \ldots$ | $\small g(\mu_i)=\mu_i$
+Logistic | $\small y_i\overset{\text{indep}}\sim \mbox{Bin}(1,p_i),$ | $\small \boldsymbol{x}_i^\top\boldsymbol{\beta} =\beta_0+ \beta_1x_i + \beta_2x_i + \ldots$ | $\small g(\mu_i)=\log \left( \frac{\mu_i}{1-\mu_i} \right)= \log \left( \frac{p_i}{1-p_i} \right)$
+
+<br>
+
+***
+
+Now that you are familiar with RMarkdown, you are encouraged to collate your work in this tutorial in a RMarkdown file. Use a `.Rmd` file to run your code and knit into a complete document for the lab.
+
+Create a `.Rmd` file to load the following packages into R:
+
+```{r eval=FALSE}
+library(tidyverse)
+library(moderndive)
+library(gapminder)
+library(sjPlot)
+library(stats)
+library(jtools)
+```
+
+<br>
+<br>
+
+
+
+
+
+
+
+
+

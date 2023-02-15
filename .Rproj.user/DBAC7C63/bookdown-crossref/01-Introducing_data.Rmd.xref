@@ -1,0 +1,6 @@
+h1:introducing-tidy-data Introducing  Data
+fig:tidyfig Tidy data graphic from http://r4ds.had.co.nz/tidy-data.html
+tab:echo Stock Prices (Non-Tidy Format)
+tab:echo Stock Prices (Tidy Format)
+tab:echo Date, Boeing Price, Weather Data
+

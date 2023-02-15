@@ -1,0 +1,7 @@
+h1:joining-data-frames Joining data frames
+fig:reldiagram Data relationships in nycflights13 from R for Data Science, Hadley and Garrett (2016)
+h3:joining-by-key-variables Joining by  variables
+fig:ijdiagram Diagram of inner join from R for Data Science
+h3:joining-by-key-variables-with-different-names Joining by  variables with different names
+h3:joining-by-multiple-key-variables Joining by multiple  variables
+

@@ -1,0 +1,11 @@
+h1:regression-modelling-with-two-continuous-explanatory-variables Regression modelling with two continuous explanatory variables
+h2:exploratory-data-analysis Exploratory data analysis
+fig:scat1 Relationship between balance and credit limit.
+fig:scat2 Relationship between balance and income.
+fig:scat3d 3D scatterplot of balance, credit limit, and income.
+h2:formal-analysis Formal analysis
+h2:assessing-model-fit Assessing model fit
+fig:residplots1 Residuals vs credit limit.
+fig:residplots2 Residuals vs income.
+fig:residhist Figure 6: Histogram of the residuals.
+

@@ -1,0 +1,6 @@
+h1:histograms Histograms
+fig:hist6 Figure 8: Histogram of hourly temperature recordings from NYC in 2013.
+fig:hist7 Figure 9: Histogram of hourly temperature recordings from NYC in 2013 (with 60 bins).
+fig:hist9 Figure 10: Histogram of hourly temperature recordings from NYC in 2013 (using binwidth).
+fig:hist10 Figure 11: Histogram of hourly temperature recordings from NYC in 2013 with updated labels.
+

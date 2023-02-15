@@ -1,0 +1,11 @@
+h1:scatterplots Scatterplots
+fig:ggplot Figure 1: Plot with no layers.
+fig:ggplot2 Figure 2: Relationship between arrival and departure delays.
+fig:ggplot3 Figure 3: Relationship between arrival and departure delays with nice labels.
+h3:over-plotting Over-plotting
+fig:ggplot4 Figure 4: Relationship between arrival and departure delays with alpha = 0.2.
+fig:jitter Figure 5: Jitter example data scatterplot.
+fig:jitter Figure 6: Jittered scatterplot of jitter example data.
+fig:ggplot5 Figure 7: Jittered scatterplot of arrival and departure delays.
+h3:scatterplot-matrix Scatterplot matrix
+

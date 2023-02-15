@@ -1,0 +1,12 @@
+h1:regression-modelling-with-one-continuous-and-one-categorical-explanatory-variable Regression modelling with one continuous and one categorical explanatory variable
+h2:exploratory-data-analysis Exploratory data analysis
+fig:evalsscat Instructor evaluation scores by age and gender. The points have been jittered.
+h2:multiple-regression-parallel-slopes-model Multiple regression: parallel slopes model
+fig:parscat Instructor evaluation scores by age and gender with parallel regression lines superimposed.
+h2:multiple-regression-interaction-model Multiple regression: interaction model
+fig:intscat Instructor evaluation scores by age and gender with interaction model fit added (same as Figure \\@ref(fig:evalsscat) but without jittering).
+h2:assessing-model-fit Assessing model fit
+fig:intresid1 Residuals vs the explanatory variable age by gender.
+fig:intresid2 Residuals vs the fitted values.
+fig:intresid3 Histograms of the residuals by gender.
+

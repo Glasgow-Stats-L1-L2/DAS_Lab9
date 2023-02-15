@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Binary logistic regression with one numerical explanatory variable | Data Analysis: Generalised Linear Models</title>
+  <meta name="description" content="Binary logistic regression with one numerical explanatory variable | Data Analysis: Generalised Linear Models" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Binary logistic regression with one numerical explanatory variable | Data Analysis: Generalised Linear Models" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Binary logistic regression with one numerical explanatory variable | Data Analysis: Generalised Linear Models" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="binary-logistic-regression-with-one-categorical-explanatory-variable.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="include/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#generalised-linear-models"><i class="fa fa-check"></i>Generalised linear models</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="binary-logistic-regression-with-one-numerical-explanatory-variable.html"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html"><i class="fa fa-check"></i>Binary logistic regression with one numerical explanatory variable</a>
+<ul>
+<li class="chapter" data-level="" data-path="binary-logistic-regression-with-one-numerical-explanatory-variable.html"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#teaching-evaluation-scores"><i class="fa fa-check"></i>Teaching evaluation scores</a></li>
+<li class="chapter" data-level="" data-path="binary-logistic-regression-with-one-numerical-explanatory-variable.html"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#log-odds"><i class="fa fa-check"></i>Log-odds</a></li>
+<li class="chapter" data-level="" data-path="binary-logistic-regression-with-one-numerical-explanatory-variable.html"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#odds"><i class="fa fa-check"></i>Odds</a></li>
+<li class="chapter" data-level="" data-path="binary-logistic-regression-with-one-numerical-explanatory-variable.html"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#probabilities"><i class="fa fa-check"></i>Probabilities</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="binary-logistic-regression-with-one-categorical-explanatory-variable.html"><a href="binary-logistic-regression-with-one-categorical-explanatory-variable.html"><i class="fa fa-check"></i>Binary logistic regression with one categorical explanatory variable</a>
+<ul>
+<li class="chapter" data-level="" data-path="binary-logistic-regression-with-one-categorical-explanatory-variable.html"><a href="binary-logistic-regression-with-one-categorical-explanatory-variable.html#log-odds-1"><i class="fa fa-check"></i>Log-odds</a></li>
+<li class="chapter" data-level="" data-path="binary-logistic-regression-with-one-categorical-explanatory-variable.html"><a href="binary-logistic-regression-with-one-categorical-explanatory-variable.html#odds-1"><i class="fa fa-check"></i>Odds</a></li>
+<li class="chapter" data-level="" data-path="binary-logistic-regression-with-one-categorical-explanatory-variable.html"><a href="binary-logistic-regression-with-one-categorical-explanatory-variable.html#probabilities-1"><i class="fa fa-check"></i>Probabilities</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="further-tasks.html"><a href="further-tasks.html"><i class="fa fa-check"></i>Further Tasks</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis: Generalised Linear Models</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="binary-logistic-regression-with-one-numerical-explanatory-variable" class="section level1 unnumbered hasAnchor">
+<h1>Binary logistic regression with one numerical explanatory variable<a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#binary-logistic-regression-with-one-numerical-explanatory-variable" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Here we shall begin by fitting a logistic regression model with one numerical explanatory variable. Let's return to the <code>evals</code> data from the <code>moderndive</code> package that we examined in Week 3.</p>
+<div id="teaching-evaluation-scores" class="section level2 unnumbered hasAnchor">
+<h2>Teaching evaluation scores<a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#teaching-evaluation-scores" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Recall from previous weeks that student feedback in higher education is extremely important when it comes to the evaluation of teaching techniques, materials, and improvements in teaching methods and technologies. However, there have been studies into potential bias factors when feedback is provided, such as the physical appearance of the teacher; see <a href="https://www.journals.elsevier.com/economics-of-education-review/">Economics of Education Review</a> for details. Here, we shall return to the study of student evaluations of <span class="math inline">\(n=463\)</span> professors from The University of Texas at Austin.</p>
+<p>Previously, we looked at <strong>teaching score</strong> as our continuous response variable and <strong>beauty score</strong> as our explanatory variable. Now we shall consider <strong>gender</strong> as our response variable, and hence shall have a binary response variable (female/male). We will examine if there is any difference in <strong>gender</strong> by <strong>age</strong> of the teaching instructors within the <code>evals</code> data set.</p>
+<p>First, let's start by selecting the variables of interest from the <code>evals</code> data set:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb2-1" aria-hidden="true" tabindex="-1"></a>evals.gender <span class="ot">&lt;-</span> evals <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb2-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(gender, age)</span></code></pre></div>
+<pre><code># A tibble: 463 x 2
+   gender   age
+   &lt;fct&gt;  &lt;int&gt;
+ 1 female    36
+ 2 female    36
+ 3 female    36
+ 4 female    36
+ 5 male      59
+ 6 male      59
+ 7 male      59
+ 8 male      51
+ 9 male      51
+10 female    40
+# ... with 453 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<p>Now, let's look at a boxplot of <code>age</code> by <code>gender</code> to get an initial impression of the data:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> evals.gender, <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> age, <span class="at">fill =</span> gender)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb4-3"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Gender&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Age&quot;</span>)<span class="sc">+</span> </span>
+<span id="cb4-4"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-4"></span>
+<img src="main_files/figure-html/unnamed-chunk-4-1.png" alt="Teaching instructor age by gender." width="672" />
+<p class="caption">
+Figure 1: Teaching instructor age by gender.
+</p>
+</div>
+<p>Here we can see that the male teaching instructors tend to be older than that of their female colleagues. Now, let's fit a logistic regression model to see whether age is a significant predictor of the odds of a teaching instructor being male or female.</p>
+</div>
+<div id="log-odds" class="section level2 unnumbered hasAnchor">
+<h2>Log-odds<a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#log-odds" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To fit a logistic regression model we will use the generalised linear model function <code>glm</code>, which acts in a very similar manner to the <code>lm</code> function we have used previously. We only have to deal with an additional argument. The logistic regression model with <strong>gender</strong> as the response and <strong>age</strong> as the explanatory variable is given by:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb5-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">glm</span>(gender <span class="sc">~</span> age, <span class="at">data =</span> evals.gender, </span>
+<span id="cb5-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb5-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span></code></pre></div>
+<p>Here we include the additional <code>family</code> argument, which states the distribution and link function we would like to use. Hence <code>family = binomial(link = "logit")</code> states we have a binary response variable, and thus have a binomial distribution, with its corresponding <strong>logit link</strong> function. Now, let's take a look at the summary produced from our logistic regression model:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb6-1" aria-hidden="true" tabindex="-1"></a>model <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div>
+<pre><code>
+Call:
+glm(formula = gender ~ age, family = binomial(link = &quot;logit&quot;), 
+    data = evals.gender)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.7134  -1.1815   0.7238   1.0180   1.4778  
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept) -2.69795    0.51194  -5.270 1.36e-07 ***
+age          0.06296    0.01059   5.948 2.71e-09 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 630.30  on 462  degrees of freedom
+Residual deviance: 591.41  on 461  degrees of freedom
+AIC: 595.41
+
+Number of Fisher Scoring iterations: 4</code></pre>
+<p>An alternative to <code>summary()</code> is the <code>summ()</code> function in the <code>jtools</code> <a href="https://cran.r-project.org/web/packages/jtools/vignettes/summ.html">package</a> which allows a lot more control over what is included in the summary table and more nicely formatted output. Here is the default output for the model fitted above...</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summ</span>(model)</span></code></pre></div>
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Observations
+</td>
+<td style="text-align:right;">
+463
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Dependent variable
+</td>
+<td style="text-align:right;">
+gender
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Type
+</td>
+<td style="text-align:right;">
+Generalized linear model
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Family
+</td>
+<td style="text-align:right;">
+binomial
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Link
+</td>
+<td style="text-align:right;">
+logit
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+χ²(1)
+</td>
+<td style="text-align:right;">
+38.89
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Pseudo-R² (Cragg-Uhler)
+</td>
+<td style="text-align:right;">
+0.11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Pseudo-R² (McFadden)
+</td>
+<td style="text-align:right;">
+0.06
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+AIC
+</td>
+<td style="text-align:right;">
+595.41
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+BIC
+</td>
+<td style="text-align:right;">
+603.68
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;border-bottom: 0;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Est.
+</th>
+<th style="text-align:right;">
+S.E.
+</th>
+<th style="text-align:right;">
+z val.
+</th>
+<th style="text-align:right;">
+p
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+-2.70
+</td>
+<td style="text-align:right;">
+0.51
+</td>
+<td style="text-align:right;">
+-5.27
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+age
+</td>
+<td style="text-align:right;">
+0.06
+</td>
+<td style="text-align:right;">
+0.01
+</td>
+<td style="text-align:right;">
+5.95
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Standard errors: MLE
+</td>
+</tr>
+</tfoot>
+</table>
+<p>To interpret this fitted model, firstly we note that the baseline category for our binary response is <code>female</code>. This is due to the default baseline in R being taken as the one which comes first alphabetically, which can be seen from the <code>levels</code> function:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(evals.gender<span class="sc">$</span>gender)</span></code></pre></div>
+<pre><code>[1] &quot;female&quot; &quot;male&quot;  </code></pre>
+<p>This means that estimates from the logistic regression model are for a change on the <strong>log-odds</strong> scale for <code>males</code> in comparison to the response baseline <code>females</code>. We can extract the estimated coefficients using <code>mod1coefs &lt;- round(coef(model), 2)</code> and then use the inline code <code>`r mod1coefs[1]`</code> and <code>`r mod1coefs[2]`</code> to report the fitted model as follows...</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb11-1" aria-hidden="true" tabindex="-1"></a>mod1coefs <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">coef</span>(model), <span class="dv">2</span>)</span></code></pre></div>
+<p><code>\begin{align}</code></p>
+<p><code>\ln\left(\frac{p}{1-p}\right) &amp;= \alpha + \beta \cdot \textrm{age} =</code> <code>`r mod1coefs[1]`   +   `r mod1coefs[2]`</code> <code>\cdot \textrm{age} \nonumber</code></p>
+<p><code>\end{align}</code></p>
+<p><span class="math display">\[\begin{align}
+\ln\left(\frac{p}{1-p}\right) &amp;= \alpha + \beta \cdot \textrm{age} = -2.7 + 0.06 \cdot \textrm{age} \nonumber
+\end{align}\]</span></p>
+<p>where <span class="math inline">\(p = \textrm{Prob}\left(\textrm{Male}\right)\)</span> and <span class="math inline">\(1 - p = \textrm{Prob}\left(\textrm{Female}\right)\)</span>. Hence, the <strong>log-odds</strong> of the instructor being male increase by 0.06 for every one unit increase in <code>age</code>. This provides us with a point estimate of how the log-odds changes with age, however, we are also interested in producing a 95% confidence interval for these log-odds. This can be done using the <code>confint</code> function in the <code>MASS</code> package:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(model) <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">2.5 %</th>
+<th align="right">97.5 %</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">-3.7196499</td>
+<td align="right">-1.7097067</td>
+</tr>
+<tr class="even">
+<td align="left">age</td>
+<td align="right">0.0425879</td>
+<td align="right">0.0841436</td>
+</tr>
+</tbody>
+</table>
+<p>To understand how these endpoints are calculated, consider the following code:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb13-1" aria-hidden="true" tabindex="-1"></a>mod.coef.logodds <span class="ot">&lt;-</span> model <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb13-2" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">summary</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb13-3" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">coef</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb14-1" aria-hidden="true" tabindex="-1"></a>age.logodds.lower <span class="ot">&lt;-</span> mod.coef.logodds[<span class="st">&quot;age&quot;</span>, <span class="st">&quot;Estimate&quot;</span>] <span class="sc">-</span> </span>
+<span id="cb14-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb14-2" aria-hidden="true" tabindex="-1"></a>                      <span class="fl">1.96</span> <span class="sc">*</span> mod.coef.logodds[<span class="st">&quot;age&quot;</span>, <span class="st">&quot;Std. Error&quot;</span>]</span></code></pre></div>
+<pre><code>[1] 0.04221777</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb16-1" aria-hidden="true" tabindex="-1"></a>age.logodds.upper <span class="ot">&lt;-</span> mod.coef.logodds[<span class="st">&quot;age&quot;</span>, <span class="st">&quot;Estimate&quot;</span>] <span class="sc">+</span> </span>
+<span id="cb16-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb16-2" aria-hidden="true" tabindex="-1"></a>                      <span class="fl">1.96</span> <span class="sc">*</span> mod.coef.logodds[<span class="st">&quot;age&quot;</span>, <span class="st">&quot;Std. Error&quot;</span>]</span></code></pre></div>
+<pre><code>[1] 0.08371167</code></pre>
+<p>Hence the point estimate for the log-odds is 0.06, which has a corresponding 95% confidence interval of (0.04, 0.08). This can be displayed graphically using the <code>plot_model</code> function from the <code>sjPlot</code> package by simply passing our <code>model</code> as an argument:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(model, <span class="at">show.values =</span> <span class="cn">TRUE</span>, <span class="at">transform =</span> <span class="cn">NULL</span>,</span>
+<span id="cb18-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb18-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">title =</span> <span class="st">&quot;Log-Odds (Male instructor)&quot;</span>, <span class="at">show.p =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-8"></span>
+<img src="main_files/figure-html/unnamed-chunk-8-1.png" alt="The log-odds of age for male instructors." width="672" />
+<p class="caption">
+Figure 2: The log-odds of age for male instructors.
+</p>
+</div>
+<p>Some of the interesting arguments that can be passed to the <code>plot_model</code> function are:</p>
+<ul>
+<li><code>show.values = TRUE/FALSE</code>: Whether the log-odds/odds values should be displayed;</li>
+<li><code>show.p = TRUE/FALSE</code>: Adds asterisks that indicate the significance level of estimates to the value labels;</li>
+<li><code>transform</code>: A character vector naming the function that will be applied to the estimates. The default transformation uses <code>exp</code> to display the odds ratios, while <code>transform = NULL</code> displays the log-odds; and</li>
+<li><code>vline.color</code>: colour of the vertical "zero effect" line.</li>
+</ul>
+<p>Further details on using <code>plot_model</code> can be found <a href="https://strengejacke.wordpress.com/2017/10/23/one-function-to-rule-them-all-visualization-of-regression-models-in-rstats-w-sjplot/">here</a> and <a href="https://strengejacke.github.io/sjPlot/index.html">here</a>.</p>
+<p>Now, let's add the estimates of the log-odds to our data set:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb19-1" aria-hidden="true" tabindex="-1"></a>evals.gender <span class="ot">&lt;-</span> evals.gender <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb19-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">mutate</span>(<span class="at">logodds.male =</span> <span class="fu">predict</span>(model))</span></code></pre></div>
+<pre><code># A tibble: 6 x 3
+  gender   age logodds.male
+  &lt;fct&gt;  &lt;int&gt;        &lt;dbl&gt;
+1 female    36       -0.431
+2 female    36       -0.431
+3 female    36       -0.431
+4 female    36       -0.431
+5 male      59        1.02 
+6 male      59        1.02 </code></pre>
+<p><br></p>
+<strong>What is the log-odds of a 62 year old instructor being male?</strong>
+<div id="radio_SKBOYDDMNA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SKBOYDDMNA" value=""></input> <span>-0.746</span></label><label><input type="radio" autocomplete="off" name="radio_SKBOYDDMNA" value=""></input> <span>1.017</span></label><label><input type="radio" autocomplete="off" name="radio_SKBOYDDMNA" value="answer"></input> <span>1.206</span></label><label><input type="radio" autocomplete="off" name="radio_SKBOYDDMNA" value=""></input> <span>0.828</span></label>
+</div>
+<p><br></p>
+<strong>What is the log-odds of a 29 year old instructor being male?</strong>
+<div id="radio_YXMVHBFYHR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YXMVHBFYHR" value=""></input> <span>-0.620</span></label><label><input type="radio" autocomplete="off" name="radio_YXMVHBFYHR" value=""></input> <span>-0.557</span></label><label><input type="radio" autocomplete="off" name="radio_YXMVHBFYHR" value=""></input> <span>-0.746</span></label><label><input type="radio" autocomplete="off" name="radio_YXMVHBFYHR" value="answer"></input> <span>-0.872</span></label>
+</div>
+<p><br></p>
+</div>
+<div id="odds" class="section level2 unnumbered hasAnchor">
+<h2>Odds<a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#odds" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Typically we would like to work on the <strong>odds</strong> scale as it is easier to interpret an odds-ratio as opposed to the log-odds-ratio. To obtain the odds we simply exponentiate the log-odds, that is</p>
+<p><span class="math display">\[\begin{align}
+\frac{p}{1-p} &amp;= \exp\left(\alpha + \beta \cdot \textrm{age}\right), \nonumber
+\end{align}\]</span></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb21-1" aria-hidden="true" tabindex="-1"></a>model <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb21-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">coef</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exp</span>()</span></code></pre></div>
+<pre><code>(Intercept)         age 
+ 0.06734369  1.06498927 </code></pre>
+<p>On the odds scale, the value of the intercept (0.07) gives the odds of a teaching instructor being male given their <code>age = 0</code>, which is obviously not a viable age for a teaching instructor, and hence why this value is very close to zero. For <code>age</code> we have an odds of 1.06, which indicates that for every 1 unit increase in age, the odds of the teaching instructor being male increase by a factor of 1.06. So how is this calculated? Let's look at the odds-ratio obtained from instructors aged 51 and 52 years old, that is, a one unit difference:</p>
+<p><span class="math display">\[\begin{align}
+\small
+\frac{\mbox{Odds}_{\scriptsize \mbox{age=52}}}{\mbox{Odds}_{\scriptsize \mbox{age=51}}} = \left(\frac{\frac{p_{\scriptsize \mbox{age=52}}}{1 - p_{\scriptsize \mbox{age=52}}}}{\frac{p_{\scriptsize \mbox{age=51}}}{1 - p_{\scriptsize \mbox{age=51}}}}\right) = \frac{\exp\left(\alpha + \beta \cdot 52\right)}{\exp\left(\alpha + \beta \cdot 51\right)} = \exp\left(\beta \cdot (52 - 51)\right) = \exp\left(0.06\right) = 1.06. \nonumber
+\end{align}\]</span></p>
+<p>For example, the odds of a teaching instructor who is 45 years old being male is given by</p>
+<p><span class="math display">\[\begin{align}
+\frac{p}{1-p} &amp;= \exp\left(\alpha + \beta \cdot \textrm{age}\right) = \exp\left(-2.7 + 0.06 \cdot 45\right) = 1.15. \nonumber
+\end{align}\]</span></p>
+<p>This can be interpreted as the chances of an instructor who is 45 being male are 15% greater than them being female. We can obtain a 95% confidence interval for the odds by simply exponentiating the lower and upper bounds of our log-odds interval:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb23-1" aria-hidden="true" tabindex="-1"></a>age.odds.lower <span class="ot">&lt;-</span> <span class="fu">exp</span>(age.logodds.lower)</span></code></pre></div>
+<pre><code>[1] 1.043122</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb25-1" aria-hidden="true" tabindex="-1"></a>age.odds.upper <span class="ot">&lt;-</span> <span class="fu">exp</span>(age.logodds.upper)</span></code></pre></div>
+<pre><code>[1] 1.087315</code></pre>
+<p>Hence the point estimate for the odds is 1.06, which has a corresponding 95% confidence interval of (1.04, 1.09). This can be displayed graphically using the <code>plot_model</code> function from the <code>sjPlot</code> package by simply passing our <code>model</code> as an argument as well as removing <code>transform = NULL</code> (the default transformation is exponential):</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(model, <span class="at">show.values =</span> <span class="cn">TRUE</span>, <span class="at">axis.lim =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">1.5</span>),</span>
+<span id="cb27-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb27-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">title =</span> <span class="st">&quot;Odds (Male instructor)&quot;</span>, <span class="at">show.p =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-13"></span>
+<img src="main_files/figure-html/unnamed-chunk-13-1.png" alt="The odds of age for male instructors." width="672" />
+<p class="caption">
+Figure 3: The odds of age for male instructors.
+</p>
+</div>
+<p><strong>Note</strong>: As the 95% confidence interval is so narrow it is hard to see it displayed in the plot, but it is included by default. The <code>axis.lim = c(1,1.5)</code> argument improves its visibility as seen here.</p>
+<p>Now, let's add the estimates of the odds to our data set:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb28-1" aria-hidden="true" tabindex="-1"></a>evals.gender <span class="ot">&lt;-</span> evals.gender <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb28-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">mutate</span>(<span class="at">odds.male =</span> <span class="fu">exp</span>(logodds.male))</span></code></pre></div>
+<pre><code># A tibble: 6 x 4
+  gender   age logodds.male odds.male
+  &lt;fct&gt;  &lt;int&gt;        &lt;dbl&gt;     &lt;dbl&gt;
+1 female    36       -0.431     0.650
+2 female    36       -0.431     0.650
+3 female    36       -0.431     0.650
+4 female    36       -0.431     0.650
+5 male      59        1.02      2.76 
+6 male      59        1.02      2.76 </code></pre>
+<p><br></p>
+<strong>What is the odds of a 47 year old instructor being male?</strong>
+<div id="radio_ISRJQGAYQP" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ISRJQGAYQP" value=""></input> <span>0.537</span></label><label><input type="radio" autocomplete="off" name="radio_ISRJQGAYQP" value=""></input> <span>0.261</span></label><label><input type="radio" autocomplete="off" name="radio_ISRJQGAYQP" value="answer"></input> <span>1.299</span></label><label><input type="radio" autocomplete="off" name="radio_ISRJQGAYQP" value=""></input> <span>0.692</span></label>
+</div>
+<p><br></p>
+<strong>What is the odds of a 56 year old instructor being male?</strong>
+<div id="radio_KZNJFPGELS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KZNJFPGELS" value=""></input> <span>2.438</span></label><label><input type="radio" autocomplete="off" name="radio_KZNJFPGELS" value=""></input> <span>3.340</span></label><label><input type="radio" autocomplete="off" name="radio_KZNJFPGELS" value="answer"></input> <span>2.289</span></label><label><input type="radio" autocomplete="off" name="radio_KZNJFPGELS" value=""></input> <span>1.779</span></label>
+</div>
+<p><br></p>
+</div>
+<div id="probabilities" class="section level2 unnumbered hasAnchor">
+<h2>Probabilities<a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#probabilities" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can obtain the probability <span class="math inline">\(p = \textrm{Prob}(\textrm{Male})\)</span> using the following transformation:</p>
+<p><span class="math display">\[\begin{align}
+p &amp;= \frac{\exp\left(\alpha + \beta \cdot \textrm{age} \right)}{1 + \exp\left(\alpha + \beta \cdot \textrm{age} \right)}. \nonumber
+\end{align}\]</span></p>
+<p>For example, the probability of a teaching instructor who is 52 years old being male is</p>
+<p><span class="math display">\[\begin{align}
+p &amp;= \frac{\exp\left(\alpha + \beta \cdot \textrm{age} \right)}{1 + \exp\left(\alpha + \beta \cdot \textrm{age} \right)}
+=\frac{\exp\left(-2.697946 + 0.0629647\cdot 52 \right)}{1 + \exp\left(-2.697946 + 0.0629647\cdot 52 \right)} 
+= 0.64, \nonumber
+\end{align}\]</span></p>
+<p>which can be computed in R as follows:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb30-1" aria-hidden="true" tabindex="-1"></a>p.num <span class="ot">&lt;-</span> <span class="fu">exp</span>(mod.coef.logodds[<span class="st">&quot;(Intercept)&quot;</span>, <span class="st">&quot;Estimate&quot;</span>] <span class="sc">+</span> mod.coef.logodds[<span class="st">&quot;age&quot;</span>, <span class="st">&quot;Estimate&quot;</span>] <span class="sc">*</span> <span class="dv">52</span>)</span>
+<span id="cb30-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb30-2" aria-hidden="true" tabindex="-1"></a>p.denom <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> p.num</span>
+<span id="cb30-3"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb30-3" aria-hidden="true" tabindex="-1"></a>p.num <span class="sc">/</span> p.denom</span></code></pre></div>
+<pre><code>[1] 0.6401971</code></pre>
+<p>The <code>plogis()</code> function from the <code>stats</code> library can also be used to obtain probabilities from the log-odds:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plogis</span>(mod.coef.logodds[<span class="st">&quot;(Intercept)&quot;</span>, <span class="st">&quot;Estimate&quot;</span>] <span class="sc">+</span> mod.coef.logodds[<span class="st">&quot;age&quot;</span>, <span class="st">&quot;Estimate&quot;</span>] <span class="sc">*</span> <span class="dv">52</span>)</span></code></pre></div>
+<pre><code>[1] 0.6401971</code></pre>
+<p>Let's add the probabilities to our data, which is done using the <code>fitted()</code> function:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb34-1" aria-hidden="true" tabindex="-1"></a>evals.gender <span class="ot">&lt;-</span> evals.gender <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb34-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">mutate</span>(<span class="at">probs.male =</span> <span class="fu">fitted</span>(model))</span></code></pre></div>
+<pre><code># A tibble: 6 x 5
+  gender   age logodds.male odds.male probs.male
+  &lt;fct&gt;  &lt;int&gt;        &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+1 female    36       -0.431     0.650      0.394
+2 female    36       -0.431     0.650      0.394
+3 female    36       -0.431     0.650      0.394
+4 female    36       -0.431     0.650      0.394
+5 male      59        1.02      2.76       0.734
+6 male      59        1.02      2.76       0.734</code></pre>
+<p><strong>Note</strong>: <code>predict(model, type = "response")</code> will also provide the estimated probabilities.</p>
+<p><br></p>
+<strong>What is the probability of a 33 year old instructor being female?</strong>
+<div id="radio_YNQVYFESAV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YNQVYFESAV" value=""></input> <span>0.364</span></label><label><input type="radio" autocomplete="off" name="radio_YNQVYFESAV" value="answer"></input> <span>0.650</span></label><label><input type="radio" autocomplete="off" name="radio_YNQVYFESAV" value=""></input> <span>0.770</span></label><label><input type="radio" autocomplete="off" name="radio_YNQVYFESAV" value=""></input> <span>0.350</span></label>
+</div>
+<p><br></p>
+<strong>What is the probability of a 47 year old instructor being male?</strong>
+<div id="radio_HPSZHBURLW" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_HPSZHBURLW" value="answer"></input> <span>0.565</span></label><label><input type="radio" autocomplete="off" name="radio_HPSZHBURLW" value=""></input> <span>0.424</span></label><label><input type="radio" autocomplete="off" name="radio_HPSZHBURLW" value=""></input> <span>0.709</span></label><label><input type="radio" autocomplete="off" name="radio_HPSZHBURLW" value=""></input> <span>0.379</span></label>
+</div>
+<p><br></p>
+<p>Finally, we can plot the probability of being male using the <code>geom_smooth()</code> function by giving <code>method = "glm"</code> and <code>methods.args = list(family = "binomial")</code> as follows:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> evals.gender, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> probs.male)) <span class="sc">+</span></span>
+<span id="cb36-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;glm&quot;</span>, </span>
+<span id="cb36-3"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb36-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">method.args =</span> <span class="fu">list</span>(<span class="at">family=</span><span class="st">&quot;binomial&quot;</span>), </span>
+<span id="cb36-4"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb36-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb36-5"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Age&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Probability of instructor being male&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-18"></span>
+<img src="main_files/figure-html/unnamed-chunk-18-1.png" alt="Probability of teaching instructor being male by age." width="672" />
+<p class="caption">
+Figure 4: Probability of teaching instructor being male by age.
+</p>
+</div>
+<p>The <code>plot_model()</code> function from the <code>sjPlot</code> package can also produce the estimated probabilities by <code>age</code> as follows:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(model, <span class="at">type =</span> <span class="st">&quot;pred&quot;</span>, <span class="at">title =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb37-2"><a href="binary-logistic-regression-with-one-numerical-explanatory-variable.html#cb37-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">axis.title =</span> <span class="fu">c</span>(<span class="st">&quot;Age&quot;</span>, <span class="st">&quot;Prob. of instructor being male&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-19"></span>
+<img src="main_files/figure-html/unnamed-chunk-19-1.png" alt="Probability of teaching instructor being male by age." width="672" />
+<p class="caption">
+Figure 5: Probability of teaching instructor being male by age.
+</p>
+</div>
+<p><br>
+<br></p>
+
+</div>
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="binary-logistic-regression-with-one-categorical-explanatory-variable.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["main.pdf", "main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

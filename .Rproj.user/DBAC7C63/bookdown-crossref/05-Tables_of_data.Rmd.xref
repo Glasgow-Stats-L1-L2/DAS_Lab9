@@ -1,0 +1,12 @@
+h1:tables-of-data Tables of data
+h2:tables-of-summaries Tables of summaries
+tab:summaries \\label{tab:summaries} Summary statistics 
+        on the sepal length by species of irises.
+tab:summariesskim \\label{tab:summaryskim} Summary statistics of the sepal length 
+         by species of irises (produced using skim() function).
+h2:contingency-tables Contingency Tables
+h2:tables-of-model-estimates Tables of model estimates
+tab:fittedmodel \\label{tab:reg} Estimates of the parameters from the fitted 
+        linear regression model.
+h2:tables-by-hand Tables 
+

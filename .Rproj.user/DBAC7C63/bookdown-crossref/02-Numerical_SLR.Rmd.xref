@@ -1,0 +1,15 @@
+h1:simple-linear-regression-with-one-numerical-explanatory-variable Simple linear regression with one numerical explanatory variable
+h2:exploratory-data-analysis Exploratory data analysis
+h2:correlation Correlation
+fig:correlation2 Differing levels of correlation between variables.
+fig:correlationplot Relationship between teaching and beauty scores.
+fig:correlation5 Comparing regular and jittered scatterplots.
+h2:formal-analysis Formal analysis
+fig:lm2 Relationship between teaching and beauty scores with regression line superimposed.
+fig:lm3 Example of observed value, fitted value, and residual.
+h2:assessing-model-fit Assessing model fit
+fig:lm6 Residuals against beauty score.
+fig:lm7 Residuals against fitted values.
+fig:lm8 Examples of different residual patterns.
+fig:lm9 Histogram of residuals.
+

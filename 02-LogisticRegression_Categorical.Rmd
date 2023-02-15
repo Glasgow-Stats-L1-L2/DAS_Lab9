@@ -1,0 +1,256 @@
+# Binary logistic regression with one categorical explanatory variable {-}
+
+Instead of having a numerical explanatory variable such as `age`, let's now use the binary categorical variable `ethnicity` as our explanatory variable. 
+
+```{r evals2, echo = c(1), eval = TRUE}
+evals.ethnic <- evals %>%
+                  select(gender, ethnicity)
+evals.ethnic
+```
+
+We can use the `janitor` package to summarise this data in a table format:
+
+```{r}
+evals %>% 
+  tabyl(ethnicity, gender) %>% 
+  adorn_percentages() %>% 
+  adorn_pct_formatting() %>% 
+  adorn_ns() # To show original counts
+```
+
+We can visualize the distribution using a barplot of `gender` and `ethnicity`:
+
+```{r, fig.cap = "Barplot of teaching instructors' gender by ethnicity.", fig.align = "center"}
+ggplot(evals, aes(x= gender,  y = ..prop.., group=ethnicity, fill=ethnicity)) + 
+    geom_bar(position="dodge", stat="count") +
+    labs(y = "Proportion")
+```    
+
+We can see that a larger proportion of instructors in the `minority` ethnic group are female (56.3% vs 43.8%), while the `not minority` ethnic group is comprised of more male instructors (60.02% vs 39.85%). Now we shall fit a logistic regression model to determine whether the gender of a teaching instructor can be predicted from their ethnicity.
+
+
+## Log-odds {-}
+
+The logistic regression model is given by:
+
+```{r model2, echo = TRUE, eval = TRUE}
+model.ethnic <- glm(gender ~ ethnicity, data = evals.ethnic, family = binomial(link = "logit"))
+```
+
+```{r mod2sum, echo = TRUE, eval = TRUE}
+model.ethnic %>%
+  summary()
+```
+
+```{r mod2coefs, echo = FALSE, eval = TRUE}
+mod2coefs <- round(coef(model.ethnic), 2)
+```
+
+Again, the baseline category for our binary response is `female`. Also, the baseline category for our explanatory variable is `minority`, which, like `gender`, is done alphabetically by default by R:
+
+```{r}
+levels(evals.ethnic$ethnicity)
+```
+
+This means that estimates from the logistic regression model are for a change on the **log-odds** scale for `males` ($p = \textrm{Prob}(\textrm{Males})$) in comparison to the response baseline `females`. That is:
+
+\begin{align}
+\ln\left(\frac{p}{1-p}\right) &= \alpha + \beta \cdot \textrm{ethnicity} = `r mod2coefs[1]` + `r mod2coefs[2]` \cdot \mathbb{I}_{\mbox{ethnicity}}(\mbox{not minority}), \nonumber
+\end{align}
+
+where $\mathbb{I}_{\mbox{ethnicity}}(\mbox{not minority})$ is an indicator function. Hence, the **log-odds** of an instructor being male increase by `r mod2coefs[2]` if they are in the ethnicity group `not minority`. This provides us with a point estimate of how the log-odds changes with ethnicity, however, we are also interested in producing a 95% confidence interval for these log-odds. This can be done using the `confint` function in the `MASS` package:
+
+```{r}
+confint(model.ethnic) %>%
+  kable()
+```
+
+To understand how these endpoints are calculated, consider the following code:
+
+```{r, echo = c(1, 2, 3, 5, 7), eval = TRUE}
+mod.ethnic.coef.logodds <- model.ethnic %>%
+                            summary() %>%
+                            coef()
+```
+
+```{r, echo = c(1, 3), eval = TRUE}
+ethnic.logodds.lower <- mod.ethnic.coef.logodds["ethnicitynot minority", "Estimate"] - 
+                        1.96 * mod.ethnic.coef.logodds["ethnicitynot minority", "Std. Error"]
+ethnic.logodds.lower
+ethnic.logodds.upper <- mod.ethnic.coef.logodds["ethnicitynot minority", "Estimate"] + 
+                        1.96 * mod.ethnic.coef.logodds["ethnicitynot minority", "Std. Error"]
+ethnic.logodds.upper
+```
+
+Hence the point estimate for the log-odds is `r mod2coefs[2]`, which has a corresponding 95% confidence interval of (`r round(ethnic.logodds.lower, 2)`, `r round(ethnic.logodds.upper, 2)`). This can be displayed graphically using the `plot_model` function from the `sjPlot` package by simply passing our `model` as an argument:
+
+```{r, fig.cap = "The log-odds for male instructors by ethnicity (not a minority).", fig.align="center"}
+plot_model(model.ethnic, show.values = TRUE, transform = NULL,
+           title = "Log-Odds (Male instructor)", show.p = FALSE)
+```
+
+Now, let's add the estimates of the log-odds to our data set:
+
+```{r, echo = c(1)}
+evals.ethnic <- evals.ethnic %>%
+                  mutate(logodds.male = predict(model.ethnic))
+head(evals.ethnic)
+```
+
+<br>
+
+```{r MCQ7, echo=FALSE}
+opts_Q7 <- sample(c(answer = "-0.251",
+                    "0.412"))
+```
+
+**What is the log-odds of an instructor from an ethnic minority being male?**
+`r longmcq(opts_Q7)`
+
+<br>
+
+## Odds {-}
+
+On the **odds** scale the regression coefficients are given by
+
+```{r, echo = TRUE, eval = TRUE}
+model.ethnic %>%
+ coef() %>%
+  exp()
+```
+
+```{r, echo = FALSE, eval = TRUE}
+mod.ethnic.odds <- model.ethnic %>%
+                    coef() %>%
+                    exp()
+```
+
+The `(Intercept)` gives us the odds of the instructor being male given that they are in the `minority` ethnic group, that is, `r round(mod.ethnic.odds["(Intercept)"], 2)` (the indicator function is zero in that case). The odds of the instructor being male given they are in the `not minority` ethnic group are `r round(mod.ethnic.odds["ethnicitynot minority"], 2)` times greater than the odds if they were in the `minority` ethnic group. 
+
+Before moving on, let's take a look at how these values are computed. First, the odds of the instructor being male given that they are in the `minority` ethnic group can be obtained as follows:
+
+\begin{align}
+\frac{p_{\mbox{minority}}}{1 - p_{\mbox{minority}}} = \exp\left(\alpha\right) = \exp\left(`r round(mod2coefs[1], 2)`\right) = `r round(exp(round(mod2coefs[1], 2)), 2)`. \nonumber
+\end{align}
+
+```{r, echo = TRUE, eval = TRUE}
+# the number of instructors in the minority
+pmin <- evals.ethnic %>%
+              filter(ethnicity == "minority") %>%
+              summarize(n()) %>%
+              pull()
+
+# the number of male instructors in the minority
+pmin.male <- evals.ethnic %>%
+              filter(ethnicity == "minority", gender == "male") %>%
+              summarize(n()) %>%
+              pull()
+
+# the proportion/probability of males in the minority
+prob.min.male <- pmin.male / pmin
+
+# the odds of an instructor being male given they are in the minority
+odds.min.male <- prob.min.male / (1 - prob.min.male)
+odds.min.male
+```
+
+Now, the odds-ratio of an instructor being male in the `not minority` compared to the `minority` ethnic group is found as follows:
+
+\begin{align}
+\frac{\mbox{Odds}_{\mbox{not minority}}}{\mbox{Odds}_\mbox{minority}} &= \frac{\frac{p_{\mbox{not minority}}}{1 - p_{\mbox{not minority}}}}{\frac{p_{\mbox{minority}}}{1 - p_{\mbox{minority}}}}\\ &= \frac{\exp\left(\alpha + \beta\right)}{\exp\left(\alpha\right)} \\ &= \exp\left(\alpha + \beta - \alpha\right) \\ &= \exp\left(\beta\right) \\ &= \exp\left(`r round(mod2coefs[2], 2)` \right) \\ &= `r round(exp(round(mod2coefs[2], 2)), 2)`. \nonumber 
+\end{align}
+
+```{r, echo = c(1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 13), eval = TRUE}
+# the number of instructors not in the minority
+pnotmin <- evals.ethnic %>%
+              filter(ethnicity == "not minority") %>%
+              summarize(n()) %>%
+              pull()
+
+# the number of male instructors not in the minority
+pnotmin.male <- evals.ethnic %>%
+              filter(ethnicity == "not minority", gender == "male") %>%
+              summarize(n()) %>%
+              pull()
+
+# the proportion/probability of males not in the minority
+prob.notmin.male <- pnotmin.male / pnotmin
+# the odds of an instructor being male given they are not in the minority
+odds.notmin.male <- prob.notmin.male / (1 - prob.notmin.male)
+odds.ratio.notmin <- odds.notmin.male / odds.min.male
+odds.ratio.notmin
+```
+
+We can obtain a 95% confidence interval for the odds by simply exponentiating the lower and upper bounds of the log-odds interval:
+
+```{r, echo = c(1, 3), eval = TRUE}
+ethnic.odds.lower <- exp(ethnic.logodds.lower)
+ethnic.odds.lower
+ethnic.odds.upper <- exp(ethnic.logodds.upper)
+ethnic.odds.upper
+```
+
+Hence the point estimate for the odds-ratio is `r round(mod.ethnic.odds["ethnicitynot minority"], 2)`, which has a corresponding 95% confidence interval of (`r round(ethnic.odds.lower, 2)`, `r round(ethnic.odds.upper, 2)`). Again, we can display this graphically using the `plot_model` function from the `sjPlot` package:
+
+```{r, fig.cap = "The odds-ratio of a male instructor given they are in the `not minority` group.", fig.align="center"}
+plot_model(model.ethnic, show.values = TRUE,
+           title = "Odds (Male instructor)", show.p = FALSE)
+```
+
+Now, let's add the estimates of the odds to our data set:
+
+```{r, echo = c(1)}
+evals.ethnic <- evals.ethnic %>%
+                  mutate(odds.male = exp(logodds.male))
+evals.ethnic
+```
+
+<br>
+
+```{r MCQ8, echo=FALSE}
+opts_Q8 <- sample(c(answer = "0.778",
+                    "1.510",
+                    "1.941"))
+```
+
+**What are the odds of an instructor being male given they are a minority?**
+`r longmcq(opts_Q8)`
+
+<br>
+
+
+## Probabilities {-}
+
+The probabilities of an instructor being male given they are in the `minority` and `not minority` groups are
+
+```{r}
+plogis(mod.ethnic.coef.logodds["(Intercept)", "Estimate"])
+plogis(mod.ethnic.coef.logodds["(Intercept)", "Estimate"] + 
+         mod.ethnic.coef.logodds["ethnicitynot minority", "Estimate"]) 
+```
+
+```{r, echo = FALSE, eval = TRUE}
+ps <- c(plogis(mod.ethnic.coef.logodds["(Intercept)", "Estimate"]),
+plogis(mod.ethnic.coef.logodds["(Intercept)", "Estimate"] + 
+         mod.ethnic.coef.logodds["ethnicitynot minority", "Estimate"])) 
+```
+
+Hence, the probabilities of an instructor being male given they are in the `minority` and `not minority` ethnic groups are `r round(ps[1], 3)` and `r round(ps[2], 3)`, respectively. Let's add the probabilities to our data:
+
+```{r, echo = c(1)}
+evals.ethnic <- evals.ethnic %>%
+                  mutate(probs.male = fitted(model.ethnic))
+evals.ethnic
+```
+
+Finally, we can use the `plot_model()` function from the `sjPlot` package to produce the estimated probabilities by `ethnicity` as follows:
+
+```{r, echo = TRUE, eval = TRUE, fig.cap = "Probability of teaching instructor being male by ethnicity.", fig.align = "center", results = FALSE}
+plot_model(model.ethnic, type = "pred", title = "",
+            axis.title = c("Ethnicity", "Prob. of instructor being male"))
+```
+
+<br>
+<br>
+
+
